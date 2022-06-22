@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'Sort.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 void main() {
   runApp(const MyApp());
@@ -59,21 +59,81 @@ class MyHomePage extends StatelessWidget {
         // the App.build method, and use it to set our appbar title.
         title: Text(title),
       ),
-      body: Column(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: const [
-          Text("Test",
-          style: TextStyle(fontSize: 24),
-          textAlign: TextAlign.center,)
-        ],
-      )
-       // This trailing comma makes auto-formatting nicer for build methods.
+      body: SizedBox.expand(
+        child: ListView(
+          children: [
+            Column(
+              // Center is a layout widget. It takes a single child and positions it
+              // in the middle of the parent.
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                  "Расписания",
+                  style: TextStyle(
+                    fontSize: 48,
+                    color: Color.fromARGB(255, 125, 125, 125),
+                    fontStyle: FontStyle.italic,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 20, 5, 20),
+                  child: Column(
+                    children: const [
+                      Text(
+                        'Описание: ',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'Данный сервис должен будет показывать школьное расписание а также школьные новости.'
+                        ' У детей будут функции оставлять заметки насчёт уроков и ставить напоминание об уроках. '
+                        'У учитилей будут теже функции, что и выше, и несколько дополнительных: '
+                        'Добавление уроков, изменение своих уроков, и полная отмена уроков. Также, если '
+                        'есть изменения в базовом расписании, всем (кто поставил галочку) будут приходить за день'
+                        ' (или в другое время, зависит от нескольких факторов) уведомления об этом.',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () async => {
+                    Clipboard.setData(const ClipboardData(
+                        text:
+                            "https://github.com/Fire-Ball-20001/WS_Mobile_Project/tree/dev")),
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Ссылка скопирована"),
+                        behavior: SnackBarBehavior.floating,
+                        width: 175,
+                        backgroundColor: Color.fromARGB(200, 100, 100, 100),
+                      ),
+                    )
+                  },
+                  style: ButtonStyle(
+                    maximumSize: MaterialStateProperty.all(const Size(55, 55)),
+                    minimumSize: MaterialStateProperty.all(const Size(55, 55)),
+                    padding: MaterialStateProperty.all(EdgeInsets.all(5)),
+                    backgroundColor: MaterialStateProperty.all(
+                        Color.fromARGB(150, 200, 200, 200)),
+                  ),
+                  child: SvgPicture.asset(
+                    "assets/images/github.svg",
+                    height: 50,
+                    width: 50,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
-
 }
-
